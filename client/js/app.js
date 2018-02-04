@@ -1,5 +1,5 @@
 
-define(['jquery', 'storage'], function($, Storage) {
+define(['jquery', 'storage', 'config'], function($, Storage, config) {
 
     var App = Class.extend({
         init: function() {
@@ -80,8 +80,13 @@ define(['jquery', 'storage'], function($, Storage) {
                 userpw2 = this.$pwinput2.attr('value');
             }
 
-            if(!this.validateFormFields(username, userpw, userpw2, email)) return;
-            
+            const { autologin } = config.build;
+            if(autologin) {
+              username = autologin.name;
+              userpw = autologin.password;
+            }
+            else if(!this.validateFormFields(username, userpw, userpw2, email)) return;
+
             this.setPlayButtonState(false);
 
             if(!this.ready || !this.canStartGame()) {
@@ -171,7 +176,7 @@ define(['jquery', 'storage'], function($, Storage) {
                 this.toggleInstructions();
             }
         },
-        
+
         setPlayButtonState: function(enabled) {
             var self = this;
             var $playButton = this.getPlayButton();
@@ -193,7 +198,7 @@ define(['jquery', 'storage'], function($, Storage) {
             }
         },
 
-        getActiveForm: function() { 
+        getActiveForm: function() {
             if(this.loginFormActive()) return $('#loadcharacter');
             else if(this.createNewCharacterFormActive()) return $('#createcharacter');
             else return null;
