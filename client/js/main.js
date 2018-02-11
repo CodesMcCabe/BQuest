@@ -57,6 +57,14 @@ define(['jquery', 'app', 'entrypoint', 'config'], function($, App, EntryPoint, c
                 }
             });
 
+            $('#inventorybutton').click(function() {
+                app.toggleInventory();
+                if(app.blinkInterval) {
+                    clearInterval(app.blinkInterval);
+                }
+                $(this).removeClass('blink');
+            });
+
             $('#achievementsbutton').click(function() {
                 app.toggleAchievements();
                 if(app.blinkInterval) {

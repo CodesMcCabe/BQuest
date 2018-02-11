@@ -1,4 +1,8 @@
 {
     "host": "Set production websocket host here",
+    "autologin": {
+      "name": "Nomad",
+      "password": "password"
+    },
     "port": 8000
 }

@@ -9,7 +9,7 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
 
             this.name = name;
             this.pw = pw;
-            
+
             if (typeof guild !== 'undefined') {
 				this.setGuild(guild);
 			}
@@ -28,36 +28,39 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
 
             // PVP Flag
             this.pvpFlag = true;
+
+            // inventory
+            this.inventory = [];
         },
 
         getGuild: function() {
 			return this.guild;
 		},
-		
+
 		setGuild: function(guild) {
 			this.guild = guild;
 			$('#guild-population').addClass("visible");
 			$('#guild-name').html(guild.name);
 		},
-		
+
 		unsetGuild: function(){
 			delete this.guild;
 			$('#guild-population').removeClass("visible");
 		},
-		
+
         hasGuild: function(){
 			return (typeof this.guild !== 'undefined');
 		},
-		
-			
+
+
 		addInvite: function(inviteGuildId){
 			this.invite = {time:new Date().valueOf(), guildId: inviteGuildId};
 		},
-		
+
 		deleteInvite: function(){
 			delete this.invite;
 		},
-		
+
 		checkInvite: function(){
 			if(this.invite && ( (new Date().valueOf() - this.invite.time) < 595000)){
 				return this.invite.guildId;
@@ -84,10 +87,12 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
                 }
 
                 if(item.type === "armor") {
+                    this.inventory.push(item);
                     rank = Types.getArmorRank(item.kind);
                     currentRank = Types.getArmorRank(Types.getKindFromString(currentArmorName));
                     msg = "You are wearing a better armor";
                 } else if(item.type === "weapon") {
+                    this.inventory.push(item);
                     rank = Types.getWeaponRank(item.kind);
                     currentRank = Types.getWeaponRank(Types.getKindFromString(this.weaponName));
                     msg = "You are wielding a better weapon";
@@ -143,7 +148,7 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
         getWeaponName: function() {
             return this.weaponName;
         },
-        
+
         setWeaponName: function(name) {
             this.weaponName = name;
         },
@@ -259,7 +264,7 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
         onInvincible: function(callback) {
             this.invincible_callback = callback;
         },
-        
+
         startInvincibility: function() {
             var self = this;
 

@@ -2269,7 +2269,6 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
 
             if(character.isAttacking() && (!character.previousTarget || character.id === this.playerId)) {
                 var isMoving = this.tryMovingToADifferentTile(character); // Don't let multiple mobs stack on the same tile when attacking a player.
-
                 if(character.canAttack(time)) {
                     if(!isMoving) { // don't hit target if moving to a different tile.
                         if(character.hasTarget() && character.getOrientationTo(character.target) !== character.orientation) {

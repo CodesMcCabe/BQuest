@@ -428,6 +428,15 @@ define(['jquery', 'storage', 'config'], function($, Storage, config) {
             $('#achievements').toggleClass('active');
         },
 
+        toggleInventory: function() {
+          let inventory = document.getElementById('inventory');
+          if (inventory.style.display === 'block') {
+            inventory.style.display = 'none';
+          } else {
+            inventory.style.display = 'block';
+          }
+        },
+
         resetPage: function() {
             var self = this,
                 $achievements = $('#achievements');
@@ -474,6 +483,10 @@ define(['jquery', 'storage', 'config'], function($, Storage, config) {
             }
             if($('body').hasClass('about')) {
                 this.closeInGameScroll('about');
+            }
+            if($('#inventory').hasClass('active')) {
+              this.toggleInventory();
+              $('#inventorybutton').removeClass('active');
             }
         },
 
