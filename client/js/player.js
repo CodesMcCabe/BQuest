@@ -87,12 +87,10 @@ define(['character', 'exceptions'], function(Character, Exceptions) {
                 }
 
                 if(item.type === "armor") {
-                    this.inventory.push(item);
                     rank = Types.getArmorRank(item.kind);
                     currentRank = Types.getArmorRank(Types.getKindFromString(currentArmorName));
                     msg = "You are wearing a better armor";
                 } else if(item.type === "weapon") {
-                    this.inventory.push(item);
                     rank = Types.getWeaponRank(item.kind);
                     currentRank = Types.getWeaponRank(Types.getKindFromString(this.weaponName));
                     msg = "You are wielding a better weapon";

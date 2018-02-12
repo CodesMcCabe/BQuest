@@ -55,6 +55,7 @@ module.exports = DatabaseHandler = cls.Class.extend({
                         .hget(userKey, "achievement8:found") // 33
                         .hget(userKey, "achievement8:progress") // 34
                         .hget("cb:" + player.connection._connection.remoteAddress, "etime") // 35
+                        .hget(userKey, "inventory_list")
                         .exec(function(err, replies){
                             var pw = replies[0];
                             var armor = replies[1];
@@ -96,6 +97,7 @@ module.exports = DatabaseHandler = cls.Class.extend({
                             var x = Utils.NaN2Zero(replies[29]);
                             var y = Utils.NaN2Zero(replies[30]);
                             var chatBanEndTime = Utils.NaN2Zero(replies[35]);
+                            var inventoryList = replies[36];
 
                             // Check Password
 
@@ -328,6 +330,14 @@ module.exports = DatabaseHandler = cls.Class.extend({
             this.makeEmptyInventory(name, inventoryNumber);
         }
     },
+    // INVENTORY
+    setInventoryList: function(item) {
+      debugger
+      if (item) {
+        client.sadd("inventory_list", item);
+      }
+    },
+
     makeEmptyInventory: function(name, number){
         log.info("Empty Inventory: " + name + " " + number);
         client.hdel("u:" + name, "inventory" + number);

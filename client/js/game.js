@@ -314,7 +314,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     obj.hidden = false;
                 }
             });
-
+            // Can add inventory list here
             this.app.initAchievementList(this.achievements);
 
             if(this.storage.hasAlreadyPlayed()) {
@@ -809,7 +809,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             });
 
             this.client.onWelcome(function(id, name, x, y, hp, armor, weapon,
-                                           avatar, weaponAvatar, experience) {
+                                           avatar, weaponAvatar, experience, inventory) {
                 log.info("Received player ID from server : "+ id);
                 self.player.id = id;
                 self.playerId = id;
@@ -824,6 +824,14 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                 self.initPlayer();
                 self.player.experience = experience;
                 self.player.level = Types.getLevel(experience);
+
+                // Set inventory for player
+                let inventoryList = document.getElementById('inventory_list');
+                inventory.forEach(item => {
+                  let li = document.createElement('li');
+                  li.appendChild(document.createTextNode(item));
+                  inventoryList.appendChild(li);
+                });
 
                 self.updateBars();
                 self.updateExpBar();
@@ -843,7 +851,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     self.storage.savePlayer(self.renderer.getPlayerImage(),
                                             self.player.getSpriteName(),
                                             self.player.getWeaponName(),
-                                            self.player.getGuild());
+                                            self.player.getGuild(),
+                                            self.player.inventory);
                     self.showNotification("Welcome to BrowserQuest!");
                 } else {
                     self.showNotification("Welcome Back. You are level " + self.player.level + ".");
@@ -1078,7 +1087,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                     self.storage.savePlayer(self.renderer.getPlayerImage(),
                                             self.player.getArmorName(),
                                             self.player.getWeaponName(),
-                                            self.player.getGuild());
+                                            self.player.getGuild(),
+                                            self.player.inventory);
                     if(self.equipment_callback) {
                         self.equipment_callback();
                     }

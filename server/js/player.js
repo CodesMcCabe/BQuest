@@ -184,7 +184,8 @@ module.exports = Player = Character.extend({
                 log.info("HIT: " + self.name + " " + message[1]);
                 var mob = self.server.getEntityById(message[1]);
                 if(mob) {
-                    var dmg = Formulas.dmg(self.weaponLevel, mob.armorLevel);
+                  // Formulas.dmg(self.weaponLevel, mob.armorLevel)
+                    var dmg = 5000;
 
                     if(dmg > 0) {
                       if(mob.type !== "player"){
@@ -254,6 +255,7 @@ module.exports = Player = Character.extend({
                                 self.server.pushToPlayer(self, self.health());
                             }
                         } else if(Types.isArmor(kind) || Types.isWeapon(kind)) {
+                            databaseHandler.setInventoryList(item);
                             self.equipItem(item.kind);
                             self.broadcast(self.equip(kind));
                         }
@@ -706,7 +708,7 @@ module.exports = Player = Character.extend({
             achievementFound[3], achievementProgress[3], achievementFound[4],
             achievementProgress[4], achievementFound[5], achievementProgress[5],
             achievementFound[6], achievementProgress[6], achievementFound[7],
-            achievementProgress[7]
+            achievementProgress[7], self.inventory
         ]);
 
         self.hasEnteredGame = true;

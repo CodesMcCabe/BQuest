@@ -15,11 +15,22 @@ define(['entity'], function(Entity) {
         },
 
         onLoot: function(player) {
+            console.log(this.itemKind);
             if(this.type === "weapon") {
                 player.switchWeapon(this.itemKind);
+                player.inventory.push(this.itemKind);
+                let inventoryList = document.getElementById('inventory_list');
+                let li = document.createElement('li');
+                li.appendChild(document.createTextNode(this.itemKind));
+                inventoryList.appendChild(li);
             }
             else if(this.type === "armor") {
                 player.armorloot_callback(this.itemKind);
+                player.inventory.push(this.itemKind);
+                let inventoryList = document.getElementById('inventory_list');
+                let li = document.createElement('li');
+                li.appendChild(document.createTextNode(this.itemKind));
+                inventoryList.appendChild(li);
             }
         },
 
