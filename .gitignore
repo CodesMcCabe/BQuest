@@ -1,5 +1,6 @@
 node_modules
 client-build
+dump.rdb
 build.txt
 config_build.json
 config_local*
@@ -7,7 +8,6 @@ config_local*
 *.swp
 .project
 .idea
-dump
 browserquest.conf
 *.sublime-project
 *.sublime-workspace
