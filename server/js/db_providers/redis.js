@@ -332,7 +332,7 @@ module.exports = DatabaseHandler = cls.Class.extend({
     },
     // INVENTORY
     setInventoryList: function(item) {
-      debugger
+      // debugger
       if (item) {
         client.sadd("inventory_list", item);
       }

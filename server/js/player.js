@@ -12,7 +12,7 @@ var cls = require("./lib/class"),
     bcrypt = require('bcrypt');
 
 module.exports = Player = Character.extend({
-    init: function(connection, worldServer, databaseHandler) {
+    init: function(connection, worldServer, databaseHandler, mongoHandler) {
         var self = this;
 
         this.server = worldServer;
@@ -92,7 +92,8 @@ module.exports = Player = Character.extend({
                         self.connection.close("Already logged in " + self.name);
                         return;
                     }
-                    databaseHandler.checkBan(self);
+                    // console.log(databaseHandler);
+                    // databaseHandler.checkBan(self);
                     databaseHandler.loadPlayer(self);
                 }
 
@@ -219,6 +220,7 @@ module.exports = Player = Character.extend({
                     }
                 }
             }
+            // INVENTORY: loot for player
             else if(action === Types.Messages.LOOT) {
                 log.info("LOOT: " + self.name + " " + message[1]);
                 var item = self.server.getEntityById(message[1]);
@@ -254,8 +256,10 @@ module.exports = Player = Character.extend({
                                 self.regenHealthBy(amount);
                                 self.server.pushToPlayer(self, self.health());
                             }
+                            // INVENTORY: database setting inventory list for player on loot
                         } else if(Types.isArmor(kind) || Types.isWeapon(kind)) {
                             databaseHandler.setInventoryList(item);
+                            mongoHandler.addInventory(item);
                             self.equipItem(item.kind);
                             self.broadcast(self.equip(kind));
                         }
@@ -300,6 +304,8 @@ module.exports = Player = Character.extend({
                 if(inventoryNumber !== 0 && inventoryNumber !== 1){
                     return;
                 }
+                // INVENTORY : need to make sure when the inventory empties that the items
+                // are also added to mongo. Might be able to handle this by just picking up the item
 
                 var itemKind = self.inventory[inventoryNumber];
                 if(itemKind){

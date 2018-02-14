@@ -21,7 +21,7 @@ var cls = require("./lib/class"),
 // ======= GAME SERVER ========
 
 module.exports = World = cls.Class.extend({
-    init: function(id, maxPlayers, websocketServer, databaseHandler) {
+    init: function(id, maxPlayers, websocketServer, databaseHandler, mongoHandler) {
         var self = this;
 
         this.id = id;
@@ -29,6 +29,7 @@ module.exports = World = cls.Class.extend({
         this.server = websocketServer;
         this.ups = 50;
         this.databaseHandler = databaseHandler;
+        this.mongoHandler = mongoHandler;
 
         this.map = null;
 
@@ -83,7 +84,7 @@ module.exports = World = cls.Class.extend({
             var move_callback = function(x, y) {
                 log.debug(player.name + " is moving to (" + x + ", " + y + ").");
                  var isPVP = self.map.isPVP(x, y);
-                player.flagPVP(isPVP); 
+                player.flagPVP(isPVP);
                player.forEachAttacker(function(mob) {
                      if(mob.target === null){
                         player.removeAttacker(mob);
@@ -284,7 +285,7 @@ module.exports = World = cls.Class.extend({
             log.error("pushToPlayer: player was undefined");
         }
     },
-    
+
     pushToGuild: function(guild, message, except) {
 		var	self = this;
 
@@ -403,7 +404,7 @@ module.exports = World = cls.Class.extend({
 		}
 		return false;
 	},
-	
+
 	reloadGuild: function(guildId, guildName){
 			var res = false;
 			var lastItem = 0;
@@ -434,7 +435,7 @@ module.exports = World = cls.Class.extend({
 			}
 		return res;
 	},
-	
+
 	addGuild: function(guildName){
 		var res = true;
 		var id=0;//an ID here
@@ -442,7 +443,7 @@ module.exports = World = cls.Class.extend({
 			id = parseInt(key,10)+1;
 			return (guild.name !== guildName);
 		});
-		if (res) { 
+		if (res) {
 			this.guilds[id] = new Guild(id, guildName, this);
 			res = id;
 		}

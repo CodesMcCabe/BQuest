@@ -13,5 +13,5 @@
     "game_servers": [{"server": "localhost", "name": "localhost"}],
     "server_name" : "localhost",
     "production": "heroku",
-    "database": "redis"
+    "database": ["redis", "mongo"]
 }

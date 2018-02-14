@@ -42,13 +42,22 @@ function main(config) {
     }, 1000);
 
     log.info("Starting BrowserQuest game server...");
-    var selector = DatabaseSelector(config);
-    databaseHandler = new selector(config);
+    var redisSelector = DatabaseSelector(config, 'redis');
+    var mongoSelector = DatabaseSelector(config, 'mongo');
+
+    // DATABASE: selects the correct file path for the database.
+    // This will give us the database object
+    // console.log(selector);
+    databaseHandler = new redisSelector(config);
+    // console.log(databaseHandler);
+    // databaseHandler = new selector(config);
+    mongoHandler = new mongoSelector;
 
     server.onConnect(function(connection) {
         var world; // the one in which the player will be spawned
         var connect = function() {
                 if(world) {
+                  // , mongoHandler
                     world.connect_callback(new Player(connection, world, databaseHandler));
                 }
             };
@@ -84,6 +93,7 @@ function main(config) {
     };
 
     _.each(_.range(config.nb_worlds), function(i) {
+      // , mongoHandler
         var world = new WorldServer('world'+ (i+1), config.nb_players_per_world, server, databaseHandler);
         world.run(config.map_filepath);
         worlds.push(world);
