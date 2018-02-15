@@ -92,8 +92,7 @@ module.exports = Player = Character.extend({
                         self.connection.close("Already logged in " + self.name);
                         return;
                     }
-                    // console.log(databaseHandler);
-                    // databaseHandler.checkBan(self);
+                    databaseHandler.checkBan(self);
                     databaseHandler.loadPlayer(self);
                 }
 
@@ -259,7 +258,7 @@ module.exports = Player = Character.extend({
                             // INVENTORY: database setting inventory list for player on loot
                         } else if(Types.isArmor(kind) || Types.isWeapon(kind)) {
                             databaseHandler.setInventoryList(item);
-                            mongoHandler.addInventory(item);
+                            mongoHandler.addInventory(item, self.name);
                             self.equipItem(item.kind);
                             self.broadcast(self.equip(kind));
                         }
@@ -675,6 +674,7 @@ module.exports = Player = Character.extend({
         self.admin = admin;
         self.equipArmor(Types.getKindFromString(armor));
         self.equipAvatar(Types.getKindFromString(avatar));
+        // self.equipWeapon(Types.getKindFromString(weapon));
         self.equipWeapon(Types.getKindFromString(weapon));
         self.inventory[0] = Types.getKindFromString(inventory[0]);
         self.inventory[1] = Types.getKindFromString(inventory[1]);

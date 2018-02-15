@@ -57,8 +57,7 @@ function main(config) {
         var world; // the one in which the player will be spawned
         var connect = function() {
                 if(world) {
-                  // , mongoHandler
-                    world.connect_callback(new Player(connection, world, databaseHandler));
+                    world.connect_callback(new Player(connection, world, databaseHandler, mongoHandler));
                 }
             };
 
@@ -93,8 +92,7 @@ function main(config) {
     };
 
     _.each(_.range(config.nb_worlds), function(i) {
-      // , mongoHandler
-        var world = new WorldServer('world'+ (i+1), config.nb_players_per_world, server, databaseHandler);
+        var world = new WorldServer('world'+ (i+1), config.nb_players_per_world, server, databaseHandler, mongoHandler);
         world.run(config.map_filepath);
         worlds.push(world);
         if(metrics) {

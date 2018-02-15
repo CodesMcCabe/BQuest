@@ -128,7 +128,9 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             if(this.storage.hasAlreadyPlayed() && this.storage.data.player) {
                 if(this.storage.data.player.armor && this.storage.data.player.weapon) {
                     this.player.setSpriteName(this.storage.data.player.armor);
-                    this.player.setWeaponName(this.storage.data.player.weapon);
+                    // this.player.setWeaponName(this.storage.data.player.weapon);
+                    // RESET THE PLAYER WEAPON ON RESTART
+                    this.player.setWeaponName("sword1");
                 }
                 if(this.storage.data.player.guild) {
 					this.player.setGuild(this.storage.data.player.guild);

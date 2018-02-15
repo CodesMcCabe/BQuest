@@ -17,17 +17,27 @@ const dbName = 'browserQuest';
 //
 //   }
 // }
-// Use connect method to connect to the server
+// Use connect method to connect to the server\
+let db;
 module.exports = MongoHandler = cls.Class.extend({
   init: function(config){
     MongoClient.connect(url, function(err, client) {
       assert.equal(null, err);
       console.log("Connected successfully to server");
 
-      const db = client.db(dbName);
+      db = client.db(dbName);
 
-      client.close();
+      // client.close();
     });
+  },
+
+  addInventory: function(item, username) {
+    const collection = db.collection('player_inventory');
+
+    collection.findOneAndUpdate(
+      {username: username},
+      {$push: {inventory: item}}
+    );
   }
 });
 
