@@ -258,7 +258,7 @@ module.exports = Player = Character.extend({
                             // INVENTORY: database setting inventory list for player on loot
                         } else if(Types.isArmor(kind) || Types.isWeapon(kind)) {
                             databaseHandler.setInventoryList(item);
-                            mongoHandler.addInventory(item, self.name);
+                            mongoHandler.addInventory(Types.getKindAsString(itemKind), self.name);
                             self.equipItem(item.kind);
                             self.broadcast(self.equip(kind));
                         }
