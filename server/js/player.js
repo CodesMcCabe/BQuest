@@ -94,6 +94,7 @@ module.exports = Player = Character.extend({
                     }
                     databaseHandler.checkBan(self);
                     databaseHandler.loadPlayer(self);
+                    // mongoHandler.loadInventory(self.name);
                 }
 
                 // self.kind = Types.Entities.WARRIOR;
@@ -258,7 +259,9 @@ module.exports = Player = Character.extend({
                             // INVENTORY: database setting inventory list for player on loot
                         } else if(Types.isArmor(kind) || Types.isWeapon(kind)) {
                             databaseHandler.setInventoryList(item);
-                            mongoHandler.addInventory(Types.getKindAsString(itemKind), self.name);
+                            console.log('test');
+                            console.log(item);
+                            mongoHandler.addInventory(item, self.name);
                             self.equipItem(item.kind);
                             self.broadcast(self.equip(kind));
                         }

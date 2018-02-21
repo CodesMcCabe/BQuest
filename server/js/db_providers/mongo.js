@@ -7,17 +7,6 @@ const url = 'mongodb://localhost:27017';
 // Database Name
 const dbName = 'browserQuest';
 
-
-// Class MongoClient {
-//   constructor () {
-//
-//   }
-//
-//   connect(url, ) {
-//
-//   }
-// }
-// Use connect method to connect to the server\
 let db;
 module.exports = MongoHandler = cls.Class.extend({
   init: function(config){
@@ -38,6 +27,10 @@ module.exports = MongoHandler = cls.Class.extend({
       {username: username},
       {$push: {inventory: item}}
     );
+  },
+
+  loadInventory: function(username) {
+    // access the mongo DB and pull info related to username
   }
 });
 
