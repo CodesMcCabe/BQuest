@@ -704,10 +704,9 @@ module.exports = Player = Character.extend({
             self.setPosition(x, y);
         }
         self.chatBanEndTime = chatBanEndTime;
-        // self.mongoInventory = [];
         self.server.addPlayer(self);
         self.server.enter_callback(self);
-
+        // PULLS INVENTORY FOR USER AND LOADS INTO FRONTEND
         this.mongoHandler.loadInventory(self.name).then(function(result){
           return result;
         }).then(result => {

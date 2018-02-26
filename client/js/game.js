@@ -829,7 +829,9 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
 
                 // Set inventory for player
                 let inventoryList = document.getElementById('inventory_list');
-                inventory.forEach(item => {
+                inventory.forEach(kind => {
+                  let item = Types.getKindAsString(kind);
+                  item = item.charAt(0).toUpperCase() + item.slice(1);
                   let li = document.createElement('li');
                   li.appendChild(document.createTextNode(item));
                   inventoryList.appendChild(li);
