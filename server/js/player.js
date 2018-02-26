@@ -14,9 +14,11 @@ var cls = require("./lib/class"),
 module.exports = Player = Character.extend({
     init: function(connection, worldServer, databaseHandler, mongoHandler) {
         var self = this;
-
+        console.log(mongoHandler);
+        this.mongoHandler = mongoHandler;
         this.server = worldServer;
         this.connection = connection;
+        this.inventoryList = [];
 
         this._super(this.connection.id, "player", Types.Entities.WARRIOR, 0, 0, "");
 
@@ -94,7 +96,7 @@ module.exports = Player = Character.extend({
                     }
                     databaseHandler.checkBan(self);
                     databaseHandler.loadPlayer(self);
-                    // mongoHandler.loadInventory(self.name);
+                    this.inventoryList = mongoHandler.loadInventory(self.name);
                 }
 
                 // self.kind = Types.Entities.WARRIOR;
@@ -259,9 +261,7 @@ module.exports = Player = Character.extend({
                             // INVENTORY: database setting inventory list for player on loot
                         } else if(Types.isArmor(kind) || Types.isWeapon(kind)) {
                             databaseHandler.setInventoryList(item);
-                            console.log('test');
-                            console.log(item);
-                            mongoHandler.addInventory(item, self.name);
+                            mongoHandler.addInventory(item.kind, self.name);
                             self.equipItem(item.kind);
                             self.broadcast(self.equip(kind));
                         }
@@ -694,6 +694,7 @@ module.exports = Player = Character.extend({
         self.bannedTime = bannedTime;
         self.banUseTime = banUseTime;
         self.experience = exp;
+        // LOAD INVENTORY FOR PLAYER
         self.level = Types.getLevel(self.experience);
         self.orientation = Utils.randomOrientation;
         self.updateHitPoints();
@@ -703,11 +704,15 @@ module.exports = Player = Character.extend({
             self.setPosition(x, y);
         }
         self.chatBanEndTime = chatBanEndTime;
-
+        // self.mongoInventory = [];
         self.server.addPlayer(self);
         self.server.enter_callback(self);
 
-        self.send([
+        this.mongoHandler.loadInventory(self.name).then(function(result){
+          return result;
+        }).then(result => {
+          let inventoryList = result[0].inventory;
+          self.send([
             Types.Messages.WELCOME, self.id, self.name, self.x, self.y,
             self.hitPoints, armor, weapon, avatar, weaponAvatar,
             self.experience, self.admin,
@@ -717,8 +722,10 @@ module.exports = Player = Character.extend({
             achievementFound[3], achievementProgress[3], achievementFound[4],
             achievementProgress[4], achievementFound[5], achievementProgress[5],
             achievementFound[6], achievementProgress[6], achievementFound[7],
-            achievementProgress[7], self.inventory
-        ]);
+            achievementProgress[7], inventoryList
+          ]);
+        }
+        );
 
         self.hasEnteredGame = true;
         self.isDead = false;

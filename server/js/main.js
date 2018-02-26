@@ -51,11 +51,17 @@ function main(config) {
     databaseHandler = new redisSelector(config);
     // console.log(databaseHandler);
     // databaseHandler = new selector(config);
-    mongoHandler = new mongoSelector;
+    mongoHandler = new mongoSelector();
+    console.log('testing');
+    console.log(mongoHandler);
+    console.log(databaseHandler);
 
     server.onConnect(function(connection) {
         var world; // the one in which the player will be spawned
         var connect = function() {
+          console.log('mongo test');
+          console.log(mongoHandler);
+          console.log(databaseHandler);
                 if(world) {
                     world.connect_callback(new Player(connection, world, databaseHandler, mongoHandler));
                 }

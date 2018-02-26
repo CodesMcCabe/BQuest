@@ -168,7 +168,7 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
                 self.receiveAction(action);
             });
         },
-
+        // SET PLAYER RECIEVED
         receiveWelcome: function(data) {
             var id = data[1],
                 name = data[2],
@@ -182,6 +182,8 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
                 experience = data[10],
                 inventory = data[data.length - 1];
 
+            console.log('test');
+            console.log(data.length);    
             if(this.welcome_callback) {
                 this.welcome_callback(id, name, x, y, hp, armor, weapon, avatar, weaponAvatar, experience, inventory);
             }

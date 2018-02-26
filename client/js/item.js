@@ -13,7 +13,7 @@ define(['entity'], function(Entity) {
         hasShadow: function() {
             return true;
         },
-
+        // UPDATE INGAME INVENTORY HERE
         onLoot: function(player) {
             console.log(this.itemKind);
             if(this.type === "weapon") {
