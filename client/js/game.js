@@ -29,6 +29,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
             this.player.moveLeft = false;
             this.player.moveRight = false;
             this.player.disableKeyboardNpcTalk = false;
+            this.inventoryItem = null;
 
             // Game state
             this.entities = {};
@@ -831,10 +832,16 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                 let inventoryList = document.getElementById('inventory_list');
                 inventory.forEach(kind => {
                   let item = Types.getKindAsString(kind);
-                  item = item.charAt(0).toUpperCase() + item.slice(1);
                   let li = document.createElement('li');
+
+                  item = item.charAt(0).toUpperCase() + item.slice(1);
                   li.appendChild(document.createTextNode(item));
                   inventoryList.appendChild(li);
+                  // Swap weapons
+                  li.addEventListener('click', function (e) {
+                    const swapWeapon = Types.getKindAsString(kind);
+                    self.player.switchWeapon(swapWeapon);
+                  });
                 });
 
                 self.updateBars();
