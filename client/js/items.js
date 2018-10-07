@@ -17,6 +17,13 @@ define(['item'], function(Item) {
             },
         }),
 
+        NomadSword: Item.extend({
+            init: function(id) {
+                this._super(id, Types.Entities.NOMADSWORD, "weapon");
+                this.lootMessage = "You pick up a nomad sword";
+            }
+        }),
+
         RedSword: Item.extend({
             init: function(id) {
                 this._super(id, Types.Entities.REDSWORD, "weapon");

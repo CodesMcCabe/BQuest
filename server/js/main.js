@@ -2,7 +2,15 @@ var fs = require('fs');
 var Metrics = require('./metrics');
 var ProductionConfig = require('./productionconfig');
 var _ = require('underscore');
+var express = require('express');
+// var tradeItem = require('./server/js/nomad/tradeItem');
+// var app = express();
+// var port = 4000;
+// var routesPrefix = '/server';
 
+// app.post(`${routesPrefix}/tradeitem`, tradeItem);
+//
+// app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 function main(config) {
     var Log = require('log');

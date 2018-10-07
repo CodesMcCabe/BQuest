@@ -1,5 +1,4 @@
-
-define(['jquery', 'storage', 'config'], function($, Storage, config) {
+define(['jquery', 'storage', 'config', 'web3Util'], function($, Storage, config, NomadContract) {
 
     var App = Class.extend({
         init: function() {

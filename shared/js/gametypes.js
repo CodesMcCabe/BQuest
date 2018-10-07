@@ -113,7 +113,8 @@ Types = {
         GOLDENSWORD: 63,
         MORNINGSTAR: 64,
         AXE: 65,
-        BLUESWORD: 66
+        BLUESWORD: 66,
+        NOMADSWORD: 67
     },
 
     Orientations: {
@@ -200,6 +201,7 @@ var kinds = {
     forestnpc: [Types.Entities.FORESTNPC, "npc"],
     desertnpc: [Types.Entities.DESERTNPC, "npc"],
     lavanpc: [Types.Entities.LAVANPC, "npc"],
+    nomadsword: [Types.Entities.NOMADSWORD, "weapon"],
 
     getType: function(kind) {
         return kinds[Types.getKindAsString(kind)][1];
@@ -220,7 +222,8 @@ Types.rankedWeapons = [
     Types.Entities.MORNINGSTAR,
     Types.Entities.BLUESWORD,
     Types.Entities.REDSWORD,
-    Types.Entities.GOLDENSWORD
+    Types.Entities.GOLDENSWORD,
+    Types.Entities.NOMADSWORD
 ];
 
 Types.rankedArmors = [

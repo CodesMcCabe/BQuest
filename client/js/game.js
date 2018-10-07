@@ -1,12 +1,11 @@
-
 define(['infomanager', 'bubble', 'renderer', 'map', 'animation', 'sprite',
         'tile', 'warrior', 'gameclient', 'audio', 'updater', 'transition',
         'pathfinder', 'item', 'mob', 'npc', 'player', 'character', 'chest',
-        'mobs', 'exceptions', 'config', 'guild', '../../shared/js/gametypes'],
+        'mobs', 'exceptions', 'config', 'guild', '../../shared/js/gametypes', 'web3Util'],
 function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedTile,
          Warrior, GameClient, AudioManager, Updater, Transition, Pathfinder,
          Item, Mob, Npc, Player, Character, Chest, Mobs, Exceptions, config,
-         Guild) {
+         Guild, NomadContract) {
     var Game = Class.extend({
         init: function(app) {
             this.app = app;
@@ -80,7 +79,7 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                                 "sorcerer", "octocat", "beachnpc", "forestnpc", "desertnpc", "lavanpc", "clotharmor", "leatherarmor", "mailarmor",
                                 "platearmor", "redarmor", "goldenarmor", "firefox", "death", "sword1", "axe", "chest",
                                 "sword2", "redsword", "bluesword", "goldensword", "item-sword2", "item-axe", "item-redsword", "item-bluesword", "item-goldensword", "item-leatherarmor", "item-mailarmor",
-                                "item-platearmor", "item-redarmor", "item-goldenarmor", "item-flask", "item-cake", "item-burger", "morningstar", "item-morningstar", "item-firepotion"];
+                                "item-platearmor", "item-redarmor", "item-goldenarmor", "item-nomadsword", "item-flask", "item-cake", "item-burger", "morningstar", "item-morningstar", "item-firepotion", "nomadsword"];
         },
 
         setup: function($bubbleContainer, canvas, background, foreground, input) {
@@ -1111,6 +1110,8 @@ function(InfoManager, BubbleManager, Renderer, Map, Animation, Sprite, AnimatedT
                 });
 
                 self.client.onSpawnItem(function(item, x, y) {
+                    console.log("ITEM")
+                    console.log(item);
                     log.info("Spawned " + Types.getKindAsString(item.kind) + " (" + item.id + ") at "+x+", "+y);
                     self.addItem(item, x, y);
                 });

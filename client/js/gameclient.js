@@ -1,5 +1,5 @@
 
-define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory, BISON) {
+define(['player', 'entityfactory', 'lib/bison', 'web3Util'], function(Player, EntityFactory, BISON, NomadContract) {
 
     var GameClient = Class.extend({
         init: function(host, port) {
@@ -183,7 +183,7 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
                 inventory = data[data.length - 1];
 
             console.log('test');
-            console.log(data.length);    
+            console.log(data.length);
             if(this.welcome_callback) {
                 this.welcome_callback(id, name, x, y, hp, armor, weapon, avatar, weaponAvatar, experience, inventory);
             }
@@ -218,14 +218,24 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
         },
 
         receiveSpawn: function(data) {
+            console.log('SPAWN')
+            console.log(data)
             var id = data[1],
                 kind = data[2],
                 x = data[3],
                 y = data[4];
 
             if(Types.isItem(kind)) {
-                var item = EntityFactory.createEntity(kind, id);
+                // Check the Nomad Contract for game item belonging to the game developer
+                // Needs to change to check if game dev owns any items
+                console.log('NOMAD')
+                debugger
+                console.log(NomadContract.findWorld.call(0))
+                // if(NomadContract.worlds.call(0)) {
+                //     kind = 67;
+                // }
 
+                var item = EntityFactory.createEntity(kind, id);
                 if(this.spawn_item_callback) {
                     this.spawn_item_callback(item, x, y);
                 }
@@ -654,6 +664,13 @@ define(['player', 'entityfactory', 'lib/bison'], function(Player, EntityFactory,
         sendLoot: function(item) {
             this.sendMessage([Types.Messages.LOOT,
                               item.id]);
+
+            // On pick up item will transfer from owner(game dev) to player that picked it up
+            if (item.kind === 67) {
+              NomadContract.tradeItem(1, '0x395fb1b3da785a720B478Bcc838E1647c413afB5').send({
+                  from: '0xe017a8729C607f5E5354A422c660D5D716E04634'
+              });
+            }
         },
 
         sendTeleport: function(x, y) {

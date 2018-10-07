@@ -90,6 +90,10 @@ define(['mobs', 'items', 'npcs', 'warrior', 'chest'], function(Mobs, Items, NPCs
         return new Items.RedSword(id);
     };
 
+    EntityFactory.builders[Types.Entities.NOMADSWORD] = function(id) {
+        return new Items.NomadSword(id);
+    };
+
     EntityFactory.builders[Types.Entities.BLUESWORD] = function(id) {
         return new Items.BlueSword(id);
     };
